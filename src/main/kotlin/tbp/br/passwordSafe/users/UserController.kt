@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import tbp.br.passwordSafe.users.requests.CreateUserRequest
+import tbp.br.passwordSafe.users.requests.LoginUserRequest
 
 
 @RestController
@@ -31,4 +32,10 @@ class UserController (
     fun save(@Valid @RequestBody  user: CreateUserRequest) =
         service.save(user.toUser())
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
+
+    @PostMapping("/login")
+    fun login(@Valid @RequestBody loginRequest: LoginUserRequest) {
+        service.login(loginRequest.email!!, loginRequest.password!!)
+            .let { ResponseEntity.ok(it) }
+    }
 }
